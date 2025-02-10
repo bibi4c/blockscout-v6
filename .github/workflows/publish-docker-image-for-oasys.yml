@@ -12,6 +12,7 @@ jobs:
     env:
       RELEASE_VERSION: 6.9.2
       DOCKER_CHAIN_NAME: oasys
+      SHORT_SHA: xae1234
     steps:
       - uses: actions/checkout@v4
       - name: Setup repo
