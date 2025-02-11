@@ -30,15 +30,6 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-add ~/.ssh/id_rsa
           
-      - name: Setup repo
-        uses: ./.github/actions/setup-repo
-        id: setup
-        with:
-          docker-username: ${{ secrets.DOCKER_USERNAME }}
-          docker-password: ${{ secrets.DOCKER_PASSWORD }}
-          docker-remote-multi-platform: true
-          docker-arm-host-key: ${{ secrets.ARM_RUNNER_KEY }}
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
