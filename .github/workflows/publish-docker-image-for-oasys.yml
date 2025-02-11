@@ -13,7 +13,7 @@ jobs:
     env:
       RELEASE_VERSION: 6.9.2
       DOCKER_CHAIN_NAME: oasys
-      SHORT_SHA: xae1234
+      SHORT_SHA: xae1235
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -24,7 +24,7 @@ jobs:
           context: .
           file: ./docker/Dockerfile
           push: true
-          tags: bibi4c/blockscout-${{ env.DOCKER_CHAIN_NAME }}:${{ env.RELEASE_VERSION }}-postrelease-${{ env.SHORT_SHA }}
+          tags: bibi4c/blockscout-${{ env.DOCKER_CHAIN_NAME }}:${{ env.RELEASE_VERSION }}-${{ env.SHORT_SHA }}
           labels: https://github.com/bibi4c/blockscout-v6
           platforms: linux/amd64
           build-args: |
