@@ -5,38 +5,24 @@ on:
   push:
     branches:
       - main
-
 jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     env:
       RELEASE_VERSION: 6.9.2
       DOCKER_CHAIN_NAME: oasys
       SHORT_SHA: xae1234
     steps:
-      # Step 1: Checkout code
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # Step 2: Setup Docker Buildx
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      # Step 3: Enable QEMU for emulating ARM architecture
-      - name: Setup QEMU emulation
-        uses: docker/setup-qemu-action@v3
+      - uses: actions/checkout@v4
+      - name: Setup repo
+        uses: ./.github/actions/setup-repo
+        id: setup
         with:
-          platforms: all
-
-      # Step 4: Log in to Docker Hub
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      # Step 5: Build and push Docker image
+          docker-username: ${{ secrets.DOCKER_USERNAME }}
+          docker-password: ${{ secrets.DOCKER_PASSWORD }}
+          docker-remote-multi-platform: true
+      
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -44,8 +30,7 @@ jobs:
           file: ./docker/Dockerfile
           push: true
           tags: blockscout/blockscout-${{ env.DOCKER_CHAIN_NAME }}:${{ env.RELEASE_VERSION }}-postrelease-${{ env.SHORT_SHA }}
-          labels: |
-            org.opencontainers.image.source=https://github.com/bibi4c/blockscout-v6
+          labels: https://github.com/bibi4c/blockscout-v6
           platforms: |
             linux/amd64
             linux/arm64/v8
