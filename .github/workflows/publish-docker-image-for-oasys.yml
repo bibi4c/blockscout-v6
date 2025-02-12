@@ -30,9 +30,7 @@ jobs:
           push: true
           tags: bibi4c/blockscout-${{ env.DOCKER_CHAIN_NAME }}:${{ env.RELEASE_VERSION }}-${{ env.SHORT_SHA }}
           labels: https://github.com/bibi4c/blockscout-v6
-          platforms: |
-            linux/amd64
-            linux/arm64/v8
+          platforms: linux/arm64/v8
           build-args: |
             CACHE_EXCHANGE_RATES_PERIOD=
             API_V1_READ_METHODS_DISABLED=false
